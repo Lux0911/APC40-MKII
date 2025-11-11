@@ -2,7 +2,7 @@
   "name": "Akai APC40 Mk2",
   "type": "MIDI",
   "path": "Hardware/Akai",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "MIDI-Modul für den Akai APC40 Mk2 Controller im Mode 1 (Ableton Live Mode). Basiert auf dem v1.2 Protokoll.",
   "url": "https://www.akaipro.com/apc40-mkii",
   "hasInput": true,
@@ -108,14 +108,14 @@
         "type": "Container",
         "collapsed": true,
         "description": "Kanal-abhängige LEDs. Werden über Note On auf Ch 1-8 (Track 1-8) gesteuert.",
-        "Track 1": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 2": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 3": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 4": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 5": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 6": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 7": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } },
-        "Track 8": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] } }
+        "Track 1": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 2": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 3": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 4": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 5": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 6": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 7": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
+        "Track 8": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } }
       },
       "Global Simple": {
         "type": "Container",
@@ -219,14 +219,14 @@
       "Track Knob Types": {
         "type": "Container",
         "collapsed": true,
-        "Knob 1": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 2": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 3": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 4": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 5": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 6": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 7": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] },
-        "Knob 8": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] }
+        "Knob 1": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 2": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 3": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 4": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 5": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 6": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 7": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
+        "Knob 8": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} }
       }
     }
   },
@@ -385,12 +385,12 @@
         "Track": { "type": "Integer", "min": 1, "max": 8 },
         "LED": {
           "type": "Enum",
-          "options": [
-            "Record Arm",
-            "Solo",
-            "Activator",
-            "Track Select"
-          ]
+          "options": {
+            "Record Arm": "Record Arm",
+            "Solo": "Solo",
+            "Activator": "Activator",
+            "Track Select": "Track Select"
+          }
         },
         "Value": { "type": "Boolean" }
       }
@@ -400,7 +400,7 @@
       "callback": "setTrackLedAB",
       "parameters": {
         "Track": { "type": "Integer", "min": 1, "max": 8 },
-        "Value": { "type": "Enum", "options": ["Off", "Yellow", "Orange"] }
+        "Value": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} }
       }
     },
     "Set Track Stop Blinking": {
@@ -424,7 +424,7 @@
       "callback": "setKnobType",
       "parameters": {
         "Knob": { "type": "Integer", "min": 1, "max": 8 },
-        "Type": { "type": "Enum", "options": ["Off", "Single", "Volume", "Pan"] }
+        "Type": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} }
       }
     }
   }
