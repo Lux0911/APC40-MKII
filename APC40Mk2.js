@@ -338,7 +338,7 @@ function moduleParameterChanged(param) {
   // --- 1. RGB-LEDs (Clip Grid, Scene, Stop All) ---
   if (grandParentName == "Clip Grid (5x8)" || parentName == "Scene Launch" || parentName == "Global RGB") {
     // Finde das LED-Objekt, das zu diesem Parameter gehört
-    var led = findLedByParam(C);
+    var led = findLedByParam(param);
     if (led) updateLed(led);
   }
   
