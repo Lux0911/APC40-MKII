@@ -1,431 +1,103 @@
 {
   "name": "Akai APC40 Mk2",
   "type": "MIDI",
-  "path": "Hardware/Akai",
-  "version": "0.0.1",
-  "description": "MIDI-Modul für den Akai APC40 Mk2 Controller im Mode 1 (Ableton Live Mode). Basiert auf dem v1.2 Protokoll.",
-  "url": "https://www.akaipro.com/apc40-mkii",
+  "path": "Hardware/Controllers",
+  "version": "1.0.0",
+  "description": "APC40 Mk2 module: full button/grid, faders, knobs, LED & LED-ring support using the official APC40 Mk2 protocol.",
+  "url": "",
+  "downloadURL": "",
   "hasInput": true,
   "hasOutput": true,
-  "hideDefaultCommands": true,
-  "defaults": {
-    "devices": [
-      "APC40 mk2",
-      "APC40 mk2"
-    ],
-    "autoAdd": false
-  },
-  "hideDefaultParameters": [
-    "autoAdd",
-    "autoFeedback",
-    "useHierarchy",
-    "octaveShift",
-    "usePitchForNoteNames",
-    "pass_through"
+  "icon": "icon.png",
+  "parameters": [
+    {
+      "name": "Mode",
+      "shortName": "mode",
+      "type": "list",
+      "default": "Ableton Live",
+      "items": ["Generic", "Ableton Live", "Alternate Ableton Live"],
+      "description": "APC40 Mk2 mode sent in SysEx introduction. Generic=0x40, Ableton Live=0x41, Alternate=0x42"
+    },
+    {
+      "name": "Application Version High",
+      "shortName": "appVersionHigh",
+      "type": "int",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "description": "Major version byte sent in APC40 intro SysEx"
+    },
+    {
+      "name": "Application Version Low",
+      "shortName": "appVersionLow",
+      "type": "int",
+      "min": 0,
+      "max": 127,
+      "default": 1,
+      "description": "Minor version byte sent in APC40 intro SysEx"
+    },
+    {
+      "name": "Bugfix level",
+      "shortName": "bugfix",
+      "type": "int",
+      "min": 0,
+      "max": 127,
+      "default": 0,
+      "description": "Bugfix byte sent in APC40 intro SysEx"
+    },
+    {
+      "name": "Send Introduction on Connect",
+      "shortName": "sendIntroOnConnect",
+      "type": "bool",
+      "default": true,
+      "description": "If true, module sends the APC40 Mk2 SysEx introduction when opened"
+    }
   ],
-  "scripts": [
-    "APC40Mk2.js"
+  "values": [
+    { "name": "Grid / Clip Launch (0..39)", "shortName": "clip", "type": "button-grid", "count": 40, "description": "Clip Launch buttons 1..40 (note numbers 0x00..0x27)" },
+
+    { "name": "Track Record Arm (1..8)", "shortName": "recarm", "type": "button", "count": 8, "description": "Note numbers 0x30 (chan=0..7 for tracks 1..8)" },
+    { "name": "Track Solo (1..8)", "shortName": "solo", "type": "button", "count": 8, "description": "Note numbers 0x31 (chan=0..7)" },
+    { "name": "Activator (1..8)", "shortName": "activator", "type": "button", "count": 8, "description": "Note numbers 0x32 (chan=0..7)" },
+    { "name": "Track Select (1..8 + master)", "shortName": "trackSelect", "type": "button", "count": 9, "description": "Note 0x33 (chan=0..7) + master" },
+    { "name": "Track Stop (1..8)", "shortName": "trackStop", "type": "button", "count": 8, "description": "Note 0x34 (chan=0..7)" },
+
+    { "name": "Device left/right / bank left/right / device on/off / lock / views", "shortName": "deviceNav", "type": "button", "count": 8, "description": "0x3A..0x41 mapping" },
+
+    { "name": "Crossfader A/B (1..8)", "shortName": "crossfaderAB", "type": "button", "count": 8, "description": "Note 0x42 uses channel 0..7 to specify track for crossfader A/B" },
+
+    { "name": "Master", "shortName": "master", "type": "button", "count": 1, "description": "Master button 0x50" },
+    { "name": "Stop All Clips", "shortName": "stopAll", "type": "button", "count": 1, "description": "0x51" },
+
+    { "name": "Scene Launch (1..5)", "shortName": "sceneLaunch", "type": "button", "count": 5, "description": "0x52..0x56 (RGB types)" },
+
+    { "name": "Transport Play", "shortName": "play", "type": "button", "count": 1 },
+    { "name": "Transport Stop", "shortName": "stop", "type": "button", "count": 1 },
+    { "name": "Transport Record", "shortName": "record", "type": "button", "count": 1 },
+    { "name": "Session Record", "shortName": "sessionRecord", "type": "button", "count": 1 },
+
+    { "name": "Cue Level", "shortName": "cue", "type": "knob", "count": 1, "description": "Controller 0x2F" },
+
+    { "name": "Track Faders (1..8)", "shortName": "trackFader", "type": "fader", "count": 8, "description": "Controller 0x07 on channels 0..7" },
+    { "name": "Master Fader", "shortName": "masterFader", "type": "fader", "count": 1, "description": "Controller 0x0E" },
+
+    { "name": "Device Knobs (1..8)", "shortName": "deviceKnob", "type": "encoder", "count": 8, "description": "Controller 0x10..0x17 - LED ring controllers 0x18..0x1F" },
+    { "name": "Track Knobs (1..8)", "shortName": "trackKnob", "type": "encoder", "count": 8, "description": "Controller 0x30..0x37 - LED ring controllers 0x38..0x3F" },
+
+    { "name": "Tempo (relative)", "shortName": "tempo", "type": "relative", "count": 1, "description": "Relative controller 0x0D" },
+
+    { "name": "Footswitch", "shortName": "footswitch", "type": "button", "count": 1, "description": "Controller 0x40" }
   ],
-  "parameters": {
-    "LEDs (Farbe)": {
-      "type": "Container",
-      "collapsed": false,
-      "description": "Steuert die Farbe der LEDs. 'Color' für RGB, 'Boolean' für einfache an/aus LEDs.",
-      "Clip Grid (5x8)": {
-        "type": "Container",
-        "collapsed": true,
-        "Row 1": {
-          "type": "Container",
-          "Button 1": { "type": "Color" },
-          "Button 2": { "type": "Color" },
-          "Button 3": { "type": "Color" },
-          "Button 4": { "type": "Color" },
-          "Button 5": { "type": "Color" },
-          "Button 6": { "type": "Color" },
-          "Button 7": { "type": "Color" },
-          "Button 8": { "type": "Color" }
-        },
-        "Row 2": {
-          "type": "Container",
-          "Button 1": { "type": "Color" },
-          "Button 2": { "type": "Color" },
-          "Button 3": { "type": "Color" },
-          "Button 4": { "type": "Color" },
-          "Button 5": { "type": "Color" },
-          "Button 6": { "type": "Color" },
-          "Button 7": { "type": "Color" },
-          "Button 8": { "type": "Color" }
-        },
-        "Row 3": {
-          "type": "Container",
-          "Button 1": { "type": "Color" },
-          "Button 2": { "type": "Color" },
-          "Button 3": { "type": "Color" },
-          "Button 4": { "type": "Color" },
-          "Button 5": { "type": "Color" },
-          "Button 6": { "type": "Color" },
-          "Button 7": { "type": "Color" },
-          "Button 8": { "type": "Color" }
-        },
-        "Row 4": {
-          "type": "Container",
-          "Button 1": { "type": "Color" },
-          "Button 2": { "type": "Color" },
-          "Button 3": { "type": "Color" },
-          "Button 4": { "type": "Color" },
-          "Button 5": { "type": "Color" },
-          "Button 6": { "type": "Color" },
-          "Button 7": { "type": "Color" },
-          "Button 8": { "type": "Color" }
-        },
-        "Row 5": {
-          "type": "Container",
-          "Button 1": { "type": "Color" },
-          "Button 2": { "type": "Color" },
-          "Button 3": { "type": "Color" },
-          "Button 4": { "type": "Color" },
-          "Button 5": { "type": "Color" },
-          "Button 6": { "type": "Color" },
-          "Button 7": { "type": "Color" },
-          "Button 8": { "type": "Color" }
-        }
-      },
-      "Scene Launch": {
-        "type": "Container",
-        "collapsed": true,
-        "Scene 1": { "type": "Color" },
-        "Scene 2": { "type": "Color" },
-        "Scene 3": { "type": "Color" },
-        "Scene 4": { "type": "Color" },
-        "Scene 5": { "type": "Color" }
-      },
-      "Global RGB": {
-        "type": "Container",
-        "collapsed": true,
-        "Stop All Clips": { "type": "Color" }
-      },
-      "Track Control": {
-        "type": "Container",
-        "collapsed": true,
-        "description": "Kanal-abhängige LEDs. Werden über Note On auf Ch 1-8 (Track 1-8) gesteuert.",
-        "Track 1": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 2": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 3": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 4": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 5": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 6": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 7": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } },
-        "Track 8": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "A/B": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} } }
-      },
-      "Global Simple": {
-        "type": "Container",
-        "collapsed": true,
-        "Master Select": { "type": "Boolean" },
-        "Pan": { "type": "Boolean" },
-        "Sends": { "type": "Boolean" },
-        "User": { "type": "Boolean" },
-        "Play": { "type": "Boolean" },
-        "Record": { "type": "Boolean" },
-        "Session Record": { "type": "Boolean" },
-        "Metronome": { "type": "Boolean" },
-        "Device On/Off": { "type": "Boolean" },
-        "Device Lock": { "type": "Boolean" },
-        "Clip/Device": { "type": "Boolean" },
-        "Detail View": { "type": "Boolean" },
-        "Bank Left": { "type": "Boolean" },
-        "Bank Right": { "type": "Boolean" },
-        "Device Left": { "type": "Boolean" },
-        "Device Right": { "type": "Boolean" }
-      }
+  "commands": [
+    {
+      "name": "Send introduction (sysEx)",
+      "shortName": "sendIntro",
+      "description": "Forces sending the APC40 Mk2 initialization SysEx message"
     },
-    "LEDs (Animation)": {
-      "type": "Container",
-      "collapsed": false,
-      "Pulsing (RGB)": {
-        "type": "Container",
-        "collapsed": true,
-        "description": "Steuert das Pulsieren (Note On Ch 7-10) für RGB-LEDs.",
-        "Clip Grid (5x8)": {
-          "type": "Container",
-          "collapsed": true,
-          "Row 1": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 2": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 3": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 4": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 5": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } }
-        },
-        "Scene Launch": {
-          "type": "Container",
-          "collapsed": true,
-          "Scene 1": { "type": "Boolean" }, "Scene 2": { "type": "Boolean" }, "Scene 3": { "type": "Boolean" }, "Scene 4": { "type": "Boolean" }, "Scene 5": { "type": "Boolean" }
-        },
-        "Global RGB": {
-          "type": "Container",
-          "collapsed": true,
-          "Stop All Clips": { "type": "Boolean" }
-        }
-      },
-      "Blinking (RGB)": {
-        "type": "Container",
-        "collapsed": true,
-        "description": "Steuert das Blinken (Note On Ch 11-15) für RGB-LEDs.",
-        "Clip Grid (5x8)": {
-          "type": "Container",
-          "collapsed": true,
-          "Row 1": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 2": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 3": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 4": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-          "Row 5": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } }
-        },
-        "Scene Launch": {
-          "type": "Container",
-          "collapsed": true,
-          "Scene 1": { "type": "Boolean" }, "Scene 2": { "type": "Boolean" }, "Scene 3": { "type": "Boolean" }, "Scene 4": { "type": "Boolean" }, "Scene 5": { "type": "Boolean" }
-        },
-        "Global RGB": {
-          "type": "Container",
-          "collapsed": true,
-          "Stop All Clips": { "type": "Boolean" }
-        }
-      },
-      "Blinking (Simple)": {
-        "type": "Container",
-        "collapsed": true,
-        "description": "Steuert das Blinken (Velocity 2) für simple LEDs.",
-        "Track Stop": {
-          "type": "Container",
-          "collapsed": true,
-          "Track 1": { "type": "Boolean" }, "Track 2": { "type": "Boolean" }, "Track 3": { "type": "Boolean" }, "Track 4": { "type": "Boolean" }, "Track 5": { "type": "Boolean" }, "Track 6": { "type": "Boolean" }, "Track 7": { "type": "Boolean" }, "Track 8": { "type": "Boolean" }
-        }
-      }
-    },
-    "Knob LEDs (CC)": {
-      "type": "Container",
-      "collapsed": false,
-      "description": "Steuert die LED-Ringe (Mode 1). Sendet CC-Nachrichten.",
-      "Track Knob Values": {
-        "type": "Container",
-        "collapsed": true,
-        "Knob 1": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 2": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 3": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 4": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 5": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 6": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 7": { "type": "Integer", "min": 0, "max": 127 },
-        "Knob 8": { "type": "Integer", "min": 0, "max": 127 }
-      },
-      "Track Knob Types": {
-        "type": "Container",
-        "collapsed": true,
-        "Knob 1": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 2": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 3": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 4": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 5": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 6": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 7": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} },
-        "Knob 8": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} }
-      }
+    {
+      "name": "All LEDs off",
+      "shortName": "ledsOff",
+      "description": "Turns off many of the common LEDs by sending appropriate Note-Off/Note-On with 0 velocity"
     }
-  },
-  "values": {
-    "Faders": {
-      "type": "Container",
-      "collapsed": true,
-      "Track 1": { "type": "Float", "min": 0, "max": 1 },
-      "Track 2": { "type": "Float", "min": 0, "max": 1 },
-      "Track 3": { "type": "Float", "min": 0, "max": 1 },
-      "Track 4": { "type": "Float", "min": 0, "max": 1 },
-      "Track 5": { "type": "Float", "min": 0, "max": 1 },
-      "Track 6": { "type": "Float", "min": 0, "max": 1 },
-      "Track 7": { "type": "Float", "min": 0, "max": 1 },
-      "Track 8": { "type": "Float", "min": 0, "max": 1 },
-      "Master": { "type": "Float", "min": 0, "max": 1 },
-      "Crossfader": { "type": "Float", "min": 0, "max": 1 }
-    },
-    "Knobs (Absolute)": {
-      "type": "Container",
-      "collapsed": true,
-      "Track 1": { "type": "Float", "min": 0, "max": 1 },
-      "Track 2": { "type": "Float", "min": 0, "max": 1 },
-      "Track 3": { "type": "Float", "min": 0, "max": 1 },
-      "Track 4": { "type": "Float", "min": 0, "max": 1 },
-      "Track 5": { "type": "Float", "min": 0, "max": 1 },
-      "Track 6": { "type": "Float", "min": 0, "max": 1 },
-      "Track 7": { "type": "Float", "min": 0, "max": 1 },
-      "Track 8": { "type": "Float", "min": 0, "max": 1 },
-      "Cue Level": { "type": "Float", "min": 0, "max": 1 }
-    },
-    "Knobs (Relative)": {
-      "type": "Container",
-      "collapsed": true,
-      "Tempo": { "type": "Integer", "description": "Relativer Wert (1-63 = up, 65-127 = down)" }
-    },
-    "Buttons (Clip Grid 5x8)": {
-      "type": "Container",
-      "collapsed": true,
-      "Row 1": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-      "Row 2": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-      "Row 3": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-      "Row 4": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } },
-      "Row 5": { "type": "Container", "Button 1": { "type": "Boolean" }, "Button 2": { "type": "Boolean" }, "Button 3": { "type": "Boolean" }, "Button 4": { "type": "Boolean" }, "Button 5": { "type": "Boolean" }, "Button 6": { "type": "Boolean" }, "Button 7": { "type": "Boolean" }, "Button 8": { "type": "Boolean" } }
-    },
-    "Buttons (Scene/Stop)": {
-      "type": "Container",
-      "collapsed": true,
-      "Scene 1": { "type": "Boolean" }, "Scene 2": { "type": "Boolean" }, "Scene 3": { "type": "Boolean" }, "Scene 4": { "type": "Boolean" }, "Scene 5": { "type": "Boolean" },
-      "Stop All Clips": { "type": "Boolean" }
-    },
-    "Buttons (Track Control)": {
-      "type": "Container",
-      "collapsed": true,
-      "Track 1": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 2": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 3": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 4": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 5": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 6": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 7": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } },
-      "Track 8": { "type": "Container", "Record Arm": { "type": "Boolean" }, "Solo": { "type": "Boolean" }, "Activator": { "type": "Boolean" }, "Track Select": { "type": "Boolean" }, "Track Stop": { "type": "Boolean" }, "A/B": { "type": "Boolean" } }
-    },
-    "Buttons (Global)": {
-      "type": "Container",
-      "collapsed": true,
-      "Master Select": { "type": "Boolean" },
-      "Pan": { "type": "Boolean" },
-      "Sends": { "type": "Boolean" },
-      "User": { "type": "Boolean" },
-      "Play": { "type": "Boolean" },
-      "Stop": { "type": "Boolean" },
-      "Record": { "type": "Boolean" },
-      "Session Record": { "type": "Boolean" },
-      "Metronome": { "type": "Boolean" },
-      "Tap Tempo": { "type": "Boolean" },
-      "Nudge -": { "type": "Boolean" },
-      "Nudge +": { "type": "Boolean" },
-      "Shift": { "type": "Boolean" },
-      "Up": { "type": "Boolean" },
-      "Down": { "type": "Boolean" },
-      "Left": { "type": "Boolean" },
-      "Right": { "type": "Boolean" },
-      "Device On/Off": { "type": "Boolean" },
-      "Device Lock": { "type": "Boolean" },
-      "Clip/Device": { "type": "Boolean" },
-      "Detail View": { "type": "Boolean" },
-      "Bank Left": { "type": "Boolean" },
-      "Bank Right": { "type": "Boolean" },
-      "Device Left": { "type": "Boolean" },
-      "Device Right": { "type": "Boolean" }
-    },
-    "Footswitch": {
-      "type": "Boolean",
-      "description": "CC 64"
-    }
-  },
-  "commands": {
-    "Initialize (Set Mode 1)": {
-      "menu": "Device",
-      "callback": "initDevice",
-      "description": "Sendet die Sysex-Nachricht, um Mode 1 zu aktivieren."
-    },
-    "Resync LEDs": {
-      "menu": "Device",
-      "callback": "resync",
-      "description": "Sendet den aktuellen Parameter-Status an alle LEDs."
-    },
-    "Set Clip Color": {
-      "menu": "LEDs",
-      "callback": "setClipColor",
-      "parameters": {
-        "Row": { "type": "Integer", "min": 1, "max": 5 },
-        "Column": { "type": "Integer", "min": 1, "max": 8 },
-        "Color": { "type": "Color" }
-      }
-    },
-    "Set Clip Pulsing": {
-      "menu": "LEDs",
-      "callback": "setClipPulsing",
-      "parameters": {
-        "Row": { "type": "Integer", "min": 1, "max": 5 },
-        "Column": { "type": "Integer", "min": 1, "max": 8 },
-        "Pulsing": { "type": "Boolean" }
-      }
-    },
-    "Set Clip Blinking": {
-      "menu": "LEDs",
-      "callback": "setClipBlinking",
-      "parameters": {
-        "Row": { "type": "Integer", "min": 1, "max": 5 },
-        "Column": { "type": "Integer", "min": 1, "max": 8 },
-        "Blinking": { "type": "Boolean" }
-      }
-    },
-    "Set Scene Color": {
-      "menu": "LEDs",
-      "callback": "setSceneColor",
-      "parameters": {
-        "Index": { "type": "Integer", "min": 1, "max": 5 },
-        "Color": { "type": "Color" }
-      }
-    },
-    "Set Scene Pulsing": {
-      "menu": "LEDs",
-      "callback": "setScenePulsing",
-      "parameters": {
-        "Index": { "type": "Integer", "min": 1, "max": 5 },
-        "Pulsing": { "type": "Boolean" }
-      }
-    },
-    "Set Track LED (Simple)": {
-      "menu": "LEDs",
-      "callback": "setTrackLedSimple",
-      "parameters": {
-        "Track": { "type": "Integer", "min": 1, "max": 8 },
-        "LED": {
-          "type": "Enum",
-          "options": {
-            "Record Arm": "Record Arm",
-            "Solo": "Solo",
-            "Activator": "Activator",
-            "Track Select": "Track Select"
-          }
-        },
-        "Value": { "type": "Boolean" }
-      }
-    },
-    "Set Track LED (A/B)": {
-      "menu": "LEDs",
-      "callback": "setTrackLedAB",
-      "parameters": {
-        "Track": { "type": "Integer", "min": 1, "max": 8 },
-        "Value": { "type": "Enum", "options": {"Off": 0, "Yellow": 1, "Orange": 2} }
-      }
-    },
-    "Set Track Stop Blinking": {
-      "menu": "LEDs",
-      "callback": "setTrackStopBlinking",
-      "parameters": {
-        "Track": { "type": "Integer", "min": 1, "max": 8 },
-        "Blinking": { "type": "Boolean" }
-      }
-    },
-    "Set Knob LED Value": {
-      "menu": "Knob LEDs",
-      "callback": "setKnobValue",
-      "parameters": {
-        "Knob": { "type": "Integer", "min": 1, "max": 8 },
-        "Value": { "type": "Integer", "min": 0, "max": 127 }
-      }
-    },
-    "Set Knob LED Type": {
-      "menu": "Knob LEDs",
-      "callback": "setKnobType",
-      "parameters": {
-        "Knob": { "type": "Integer", "min": 1, "max": 8 },
-        "Type": { "type": "Enum", "options": {"Off": 0, "Single": 1, "Volume": 2, "Pan": 3} }
-      }
-    }
-  }
+  ]
 }
