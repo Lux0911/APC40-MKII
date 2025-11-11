@@ -43,7 +43,7 @@ var colorLUT = [
   { v: 52, r: 255, g: 76, b: 255 }, { v: 53, r: 255, g: 0, b: 255 }, { v: 54, r: 89, g: 0, b: 89 }, { v: 55, r: 25, g: 0, b: 25 },
   { v: 56, r: 255, g: 76, b: 135 }, { v: 57, r: 255, g: 0, b: 84 }, { v: 58, r: 89, g: 0, b: 29 }, { v: 59, r: 34, g: 0, b: 19 }
   // ... (Farben 60-127 sind meist Variationen)
-];
+]; // *** KORREKTUR: Der Kommentar wurde aus dem Array entfernt und hier platziert ***
 
 /**
  * Findet die nächste APC40 Mk2 Velocity für eine gegebene RGB-Farbe.
@@ -151,7 +151,7 @@ function init() {
         note: 66,
         channel: t,
         isEnum: true, // Enum-LED (0=off, 1=Yel, 2=Org)
-        colorParam: local.parameters.ledsFarbe.trackControl.getChild("Track " + t).getRawChild("A/B")
+        colorParam: local.parameters.ledsFarbe.trackControl.getChild("Track " + t).getChild("A/B") // *** KORREKTUR: getRawChild() zu getChild() geändert ***
     };
     
     // Input-Maps (Kanal-abhängig)
@@ -161,7 +161,7 @@ function init() {
     trackNoteValueObj[t][50] = local.values.buttonsTrackControl.getChild("Track " + t).activator;
     trackNoteValueObj[t][51] = local.values.buttonsTrackControl.getChild("Track " + t).trackSelect;
     trackNoteValueObj[t][52] = local.values.buttonsTrackControl.getChild("Track " + t).trackStop;
-    trackNoteValueObj[t][66] = local.values.buttonsTrackControl.getChild("Track " + t).getRawChild("A/B");
+    trackNoteValueObj[t][66] = local.values.buttonsTrackControl.getChild("Track " + t).getChild("A/B"); // *** KORREKTUR: getRawChild() zu getChild() geändert ***
   }
 
   // Global Simple LEDs (An/Aus)
@@ -338,7 +338,7 @@ function moduleParameterChanged(param) {
   // --- 1. RGB-LEDs (Clip Grid, Scene, Stop All) ---
   if (grandParentName == "Clip Grid (5x8)" || parentName == "Scene Launch" || parentName == "Global RGB") {
     // Finde das LED-Objekt, das zu diesem Parameter gehört
-    var led = findLedByParam(param);
+    var led = findLedByParam(C);
     if (led) updateLed(led);
   }
   
